@@ -2,14 +2,16 @@
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const config = require("../config.js")
 
+// GET /v1/rdc/devices/augmented/{descriptor}
+// Used to validate descriptor and/or get information about device
 let validateDescriptor = async (descriptor) => {
-    const data = await fetch(`${config.apiEndpoint}/v1/rdc/devices/augmented/${descriptor}`)
-    const response = await data.text()
+    const response = await fetch(`${config.apiEndpoint}/v1/rdc/devices/augmented/${descriptor}`)
+    const data = await response.text()
 
     try {
-        return (JSON.parse(response))
+        return (JSON.parse(data))
     } catch (error) {
-        return (response)
+        return (data)
     }
 }
 
