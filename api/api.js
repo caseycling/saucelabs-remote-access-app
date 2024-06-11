@@ -1,4 +1,5 @@
 const express = require("express")
+const cors = require("cors")
 
 const getDevicesStatus = require("./calls/getDevicesStatus")
 const validateDescriptor = require("./calls/validateDescriptor")
@@ -8,6 +9,9 @@ const app = express()
 const PORT = 3001
 
 app.use(express.json())
+
+//Blanket-enable cors for every route, i.e. Enable ALL CORS requests
+app.use(cors())
 
 app.get("/getDevicesStatus", async (_, res) => {
     const data = await getDevicesStatus()
