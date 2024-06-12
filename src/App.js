@@ -1,23 +1,34 @@
+import { useEffect } from 'react';
 import './App.css';
 
-function App() {
-  
-  const createSession = async () => {
-    console.log('Session created');
-  };
+import ButtonContainer from './components/ButtonContainer';
 
-  const endSession = async () => {
-    console.log('Session ended')
+function App() {
+
+  useEffect(() => {
+    getActiveDevices();
+  }, [])
+
+  const phones = [];
+
+  const getActiveDevices = async () => {
+    const response = await fetch('http://localhost:3001/getDevicesStatus')
+    const data = await response.json()
+    
+    const availableDevices = data.devices.filter(device => device.state === 'AVAILABLE')
+    
+    availableDevices.forEach(phone => {
+      phones.push(phone.descriptor)
+    });
+
+    console.log(phones)
   }
 
   return (
     <div className="App">
       <div className="container">
         <iframe title="SUT"/>
-        <div className='btn-container'>
-          <button onClick={createSession}>Create Session</button>
-          <button onClick={endSession}>End Session</button>
-        </div>
+          <ButtonContainer phones={phones}/>
       </div>
     </div>
   );
