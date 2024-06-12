@@ -4,6 +4,7 @@ const cors = require("cors")
 const getDevicesStatus = require("./calls/getDevicesStatus")
 const validateDescriptor = require("./calls/validateDescriptor")
 const openDevice = require("./calls/openDevice")
+const closeDevice = require("./calls/closeDevice")
 
 const app = express()
 const PORT = 3001
@@ -30,6 +31,17 @@ app.get("/validateDescriptor/:descriptor", async (req, res) => {
 app.post("/openDevice/:descriptor", async (req, res) => {
     const data = await openDevice(req.params.descriptor, req.body)
     res.send(data) 
+})
+
+app.post("/:deviceSessionId/close", async (req, res) => {
+    const response = await closeDevice(req.params.deviceSessionId)
+
+    if (response != 500) {
+        res.send("OK")
+    }
+    else {
+        res.status(500).send("Internal Server Error")
+    }
 })
 
 app.listen(PORT, _ => {
