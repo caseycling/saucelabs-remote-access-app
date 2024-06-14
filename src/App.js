@@ -49,8 +49,34 @@ function App() {
   
       const data = await response.json()
       setSessionId(data.deviceSessionId)
+
   
       console.log(`Session started with device: ${device.target.id}`)
+
+      /*
+
+      Companion - wss://api.us-west-1.saucelabs.com/v1/rdc/socket/companion/{device_session_id}?version=1
+      alternativeIo - wss://api.us-west-1.saucelabs.com/v1/rdc/socket/alternativeIo/{device_session_id}
+      */
+
+      //TODO: FIGURE OUT HOW TO USE STATE FOR SESSION ID
+      const companionSocket = new WebSocket(`wss://${process.env.REACT_APP_SAUCE_USERNAME}:${process.env.REACT_APP_SAUCE_ACCESS_KEY}@api.us-west-1.saucelabs.com/v1/rdc/socket/companion/${data.deviceSessionId}?version=1`)
+
+      companionSocket.onerror = (error) => {
+        console.log(error)
+      }
+
+      companionSocket.onopen = (event) => {
+        console.log("Companion websocket opened")
+      }
+
+      companionSocket.onmessage = (event) => {
+        const msg = JSON.parse(event.data)
+
+        if (msg.type == "device.state.update" && msg.value.state == "ONLINE") {
+          console.log("Device is online")
+        }
+      }
   
     } catch (error) {
       console.error('An error occurred:', error)
@@ -61,7 +87,7 @@ function App() {
 
     try {
       console.log(sessionId)
-      const response = await fetch(`http://localhost:3001/devices/${sessionId}/close`, {
+      const response = await fetch(`http://localhost:3001/sessions/${sessionId}/close`, {
         method: 'POST',
       })
 
