@@ -8,14 +8,14 @@ const ButtonContainer = ({phones, startSession}) => {
 
     const [activeTest, setActiveTest] = useState(false)
 
-    const handleInput = () => {
+    const handleStart = () => {
         setActiveTest(true)
     }
 
     return (
         <div className="button-container">
             {!activeTest ? 
-                <DeviceSelectorCarousel phones={phones} startSession={startSession} />
+                <DeviceSelectorCarousel handleStart={handleStart} phones={phones} startSession={startSession} />
                 :
                 <EndSessionButton />
             }
