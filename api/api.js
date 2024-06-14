@@ -33,7 +33,7 @@ app.post("/openDevice/:descriptor", async (req, res) => {
     res.send(data) 
 })
 
-app.post("/:deviceSessionId/close", async (req, res) => {
+app.post("/sessions/:deviceSessionId/close", async (req, res) => {
     const response = await closeDevice(req.params.deviceSessionId)
 
     if (response != 500) {
