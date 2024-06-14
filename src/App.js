@@ -6,7 +6,7 @@ import ButtonContainer from './components/ButtonContainer';
 function App() {
 
   const [activeTest, setActiveTest] = useState(false);
-  const [testId, setTestId] = useState(''); 
+  const [sessionId, setSessionId] = useState(''); 
 
   useEffect(() => {
     getActiveDevices();
@@ -24,6 +24,11 @@ function App() {
       phones.push(phone.descriptor)
     });
   }
+
+  // Open websocket
+  // Create blob with type image: png
+  // 
+
 
   const startSession = async (device) => {
     try {
@@ -43,14 +48,29 @@ function App() {
       }
   
       const data = await response.json()
-      setTestId(data.deviceSessionId)
+      setSessionId(data.deviceSessionId)
   
       console.log(`Session started with device: ${device.target.id}`)
-      console.log(`Test ID: ${testId}`)
-      console.log(data.deviceSessionId)
   
     } catch (error) {
       console.error('An error occurred:', error)
+    }
+  }
+
+  const endSession = async (sessionId) => {
+
+    try {
+      console.log(sessionId)
+      const response = await fetch(`http://localhost:3001/devices/${sessionId}/close`, {
+        method: 'POST',
+      })
+
+      const data = await response.text()
+      console.log(data)
+      setSessionId('');
+
+    } catch (error) {
+      console.log(`Error occured: ${error}`)
     }
   }
 
@@ -58,7 +78,7 @@ function App() {
     <div className="App">
       <div className="container">
         <iframe title="SUT"/>
-          <ButtonContainer phones={phones} startSession={startSession}/>
+          <ButtonContainer phones={phones} startSession={startSession} endSession={endSession} sessionId={sessionId}/>
       </div>
     </div>
   );

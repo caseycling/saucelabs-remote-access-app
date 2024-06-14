@@ -1,18 +1,13 @@
 import React from 'react';
 
-const handleInput = () => {
-    console.log('Ended device session')
+
+const EndSessionButton = ({endSession, sessionId}) => {
+    return (
+        <button onClick={() => endSession(sessionId)}>
+            End Session
+        </button>
+    );
 }
 
-
-class EndSessionButton extends React.Component {
-    render() {
-        return (
-            <button onClick={handleInput}>
-                End Session
-            </button>
-        );
-    }
-}
 
 export default EndSessionButton;
