@@ -14,7 +14,7 @@ const DeviceSelectorCarousel = ({ phones, startSession }) => {
     return (
         <div style={{color: "white"}}>
             <button onClick={goPrev}>Previous</button>
-            <button onClick={startSession}>{phones[activeIndex]}</button>
+            <button onClick={startSession} id={phones[activeIndex]}>{phones[activeIndex]}</button>
             <button onClick={goNext}>Next</button>
         </div>
     );

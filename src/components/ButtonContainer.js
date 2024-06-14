@@ -4,7 +4,7 @@ import EndSessionButton from './EndSessionButton'
 import DeviceSelectorCarousel from './DeviceSelectorCarousel';
 
 
-const ButtonContainer = ({phones}) => {
+const ButtonContainer = ({phones, startSession}) => {
 
     const [activeTest, setActiveTest] = useState(false)
 
@@ -15,7 +15,7 @@ const ButtonContainer = ({phones}) => {
     return (
         <div className="button-container">
             {!activeTest ? 
-                <DeviceSelectorCarousel phones={phones} />
+                <DeviceSelectorCarousel phones={phones} startSession={startSession} />
                 :
                 <EndSessionButton />
             }
