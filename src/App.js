@@ -3,6 +3,7 @@ import './App.css';
 
 import ButtonContainer from './components/ButtonContainer';
 import WebsocketManager from "./services/WebsocketManager";
+import TouchOverlay from './components/TouchOverlay';
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
   const [videoSrc, setVideoSrc] = useState(null)
   const [videoWidth, setVideoWidth] = useState(0)
   const [videoHeight, setVideoHeight] = useState(0)
+  const [deviceSocket, setDeviceSocket] = useState(null)
 
 
   useEffect(() => {
@@ -65,8 +67,9 @@ function App() {
       setVideoWidth((deviceInfo.resolutionWidth)*.3)
       setVideoHeight((deviceInfo.resolutionHeight)*.3)
       
-      const myManager = new WebsocketManager(data.deviceSessionId, setVideoSrc)
-      myManager.createCompanionSocket()
+      const mySocket = new WebsocketManager(data.deviceSessionId, setVideoSrc)
+      setDeviceSocket(mySocket)
+      mySocket.createCompanionSocket()
   
     } catch (error) {
       console.error('An error occurred:', error)
@@ -94,8 +97,11 @@ function App() {
   return (
     <div className="App">
       <div className="container">
-      <img src={videoSrc} width={videoWidth} height={videoHeight} />
-          <ButtonContainer phones={phones} startSession={startSession} endSession={endSession} sessionId={sessionId}/>
+        <div className="video-container">
+          <TouchOverlay deviceWidth={videoWidth} deviceHeight={videoHeight} websocketManager={deviceSocket}/>
+          <img src={videoSrc} width={videoWidth} height={videoHeight} />
+        </div>
+      <ButtonContainer phones={phones} startSession={startSession} endSession={endSession} sessionId={sessionId}/>
       </div>
     </div>
   );
