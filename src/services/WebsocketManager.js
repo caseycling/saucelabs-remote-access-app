@@ -26,13 +26,19 @@ class WebsocketManager {
         this.alternativeIoSocket.onerror = error => console.log(error)
         this.alternativeIoSocket.onopen = _ => console.log("alternativeio websocket opened")
         this.alternativeIoSocket.onmessage = event => {
-            if (typeof event.data != String) {
-                console.log(typeof(this.alternativeIoSocket))
-                console.log(typeof(this.companionSocket))
+            if (event.data instanceof Blob) {
                 this.alternativeIoSocket.send("n/")
+                /*might be redundant*/
                 const blob = new Blob([event.data], {type: "image/png"})
                 this.setVideoSrc(URL.createObjectURL(blob))
             }
+        }
+    }
+
+    sendMovement(deviceWidth, deviceHeight, type, touchCoords) {
+        const movementData = `mt/${type} ${deviceWidth} ${deviceHeight} 0 1 0 ${touchCoords}`
+        if (this.alternativeIoSocket) {
+            this.alternativeIoSocket.send(movementData)
         }
     }
 }

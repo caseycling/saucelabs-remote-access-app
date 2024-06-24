@@ -25,3 +25,14 @@
   justify-content: center;
   gap: 10px;
 }
+
+.video-container {
+  position: relative;
+  display: inline-block;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
