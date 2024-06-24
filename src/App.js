@@ -9,6 +9,9 @@ function App() {
   const [activeTest, setActiveTest] = useState(false);
   const [sessionId, setSessionId] = useState('');
   const [videoSrc, setVideoSrc] = useState(null)
+  const [videoWidth, setVideoWidth] = useState(0)
+  const [videoHeight, setVideoHeight] = useState(0)
+
 
   useEffect(() => {
     getActiveDevices();
@@ -27,11 +30,6 @@ function App() {
     });
   }
 
-  // Open websocket
-  // Create blob with type image: png
-  // 
-
-
   const startSession = async (device) => {
     try {
       const response = await fetch(`http://localhost:3001/openDevice/${device.target.id}`, {
@@ -48,13 +46,25 @@ function App() {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+
+      const deviceInfoResponse = await fetch(`http://localhost:3001/validateDescriptor/${device.target.id}`);
+    
+      if (!deviceInfoResponse.ok) {
+        throw new Error(`HTTP error! status: ${deviceInfoResponse.status}`);
+      }
+
+      const deviceInfo = await deviceInfoResponse.json();
+    
+      // You can now use deviceInfo to set more state or perform other actions
+      console.log(deviceInfo);
+
   
       const data = await response.json()
+      
       setSessionId(data.deviceSessionId)
-
-  
-      console.log(`Session started with device: ${device.target.id}`)
-
+      setVideoWidth((deviceInfo.resolutionWidth)*.3)
+      setVideoHeight((deviceInfo.resolutionHeight)*.3)
+      
       const myManager = new WebsocketManager(data.deviceSessionId, setVideoSrc)
       myManager.createCompanionSocket()
   
@@ -72,8 +82,9 @@ function App() {
       })
 
       const data = await response.text()
-      console.log(data)
       setSessionId('');
+      setVideoHeight(0);
+      setVideoWidth(0);
 
     } catch (error) {
       console.log(`Error occured: ${error}`)
@@ -83,7 +94,7 @@ function App() {
   return (
     <div className="App">
       <div className="container">
-      <img src={videoSrc} width="500" height="1000" />
+      <img src={videoSrc} width={videoWidth} height={videoHeight} />
           <ButtonContainer phones={phones} startSession={startSession} endSession={endSession} sessionId={sessionId}/>
       </div>
     </div>
