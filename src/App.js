@@ -65,8 +65,8 @@ function App() {
       setVideoWidth((deviceInfo.resolutionWidth)*.3)
       setVideoHeight((deviceInfo.resolutionHeight)*.3)
       
-      const myManager = new WebsocketManager(data.deviceSessionId, setVideoSrc)
-      myManager.createCompanionSocket()
+      const deviceSocket = new WebsocketManager(data.deviceSessionId, setVideoSrc)
+      deviceSocket.createCompanionSocket()
   
     } catch (error) {
       console.error('An error occurred:', error)
