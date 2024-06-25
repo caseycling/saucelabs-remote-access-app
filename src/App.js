@@ -11,8 +11,8 @@ function App() {
   const [phones, setPhones] = useState([]);
   const [sessionId, setSessionId] = useState('');
   const [videoSrc, setVideoSrc] = useState(null)
-  const [videoWidth, setVideoWidth] = useState(0)
-  const [videoHeight, setVideoHeight] = useState(0)
+  const [videoWidth, setVideoWidth] = useState(500)
+  const [videoHeight, setVideoHeight] = useState(750)
   const [deviceSocket, setDeviceSocket] = useState(null)
 
 
