@@ -35,6 +35,15 @@ class WebsocketManager {
         }
     }
 
+    closeSockets() {
+        if (this.alternativeIoSocket) {
+            this.alternativeIoSocket.close()
+        }
+        if (this.companionSocket) {
+            this.companionSocket.close()
+        }
+    }
+
     sendMovement(deviceWidth, deviceHeight, type, touchCoords) {
         const movementData = `mt/${type} ${deviceWidth} ${deviceHeight} 0 1 0 ${touchCoords}`
         if (this.alternativeIoSocket) {

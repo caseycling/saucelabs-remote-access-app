@@ -99,6 +99,10 @@ function App() {
       setActiveTest(false);
       setVideoHeight(0);
       setVideoWidth(0);
+      setVideoSrc(null)
+
+      deviceSocket.closeSockets()
+      setDeviceSocket(null)
 
     } catch (error) {
       console.log(`Error occured: ${error}`)
