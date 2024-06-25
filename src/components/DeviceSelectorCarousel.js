@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const DeviceSelectorCarousel = ({ phones, startSession, handleStart }) => {
+const DeviceSelectorCarousel = ({ phones, startSession }) => {
     const [activeIndex, setActiveIndex] = useState(0);
 
     const goNext = () => {
@@ -13,7 +13,6 @@ const DeviceSelectorCarousel = ({ phones, startSession, handleStart }) => {
 
     const startTestSession = (e) => {
         startSession(e);
-        handleStart();
     }
 
     return (

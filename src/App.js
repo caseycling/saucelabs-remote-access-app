@@ -67,11 +67,12 @@ function App() {
     
       // You can now use deviceInfo to set more state or perform other actions
       console.log(deviceInfo);
-
   
       const data = await response.json()
       
       setSessionId(data.deviceSessionId)
+      setActiveTest(true)
+      
       setVideoWidth((deviceInfo.resolutionWidth)*.3)
       setVideoHeight((deviceInfo.resolutionHeight)*.3)
       
@@ -94,6 +95,7 @@ function App() {
 
       const data = await response.text()
       setSessionId('');
+      setActiveTest(false);
       setVideoHeight(0);
       setVideoWidth(0);
 
@@ -109,7 +111,7 @@ function App() {
           <TouchOverlay deviceWidth={videoWidth} deviceHeight={videoHeight} websocketManager={deviceSocket}/>
           <img src={videoSrc} width={videoWidth} height={videoHeight} />
         </div>
-      <ButtonContainer phones={phones} startSession={startSession} endSession={endSession} sessionId={sessionId}/>
+      <ButtonContainer phones={phones} activeTest={activeTest} startSession={startSession} endSession={endSession} sessionId={sessionId}/>
       </div>
     </div>
   );
