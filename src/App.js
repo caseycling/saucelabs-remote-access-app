@@ -8,18 +8,22 @@ import TouchOverlay from './components/TouchOverlay';
 function App() {
 
   const [activeTest, setActiveTest] = useState(false);
+  const [phones, setPhones] = useState([]);
   const [sessionId, setSessionId] = useState('');
   const [videoSrc, setVideoSrc] = useState(null)
-  const [videoWidth, setVideoWidth] = useState(0)
-  const [videoHeight, setVideoHeight] = useState(0)
+  const [videoWidth, setVideoWidth] = useState(500)
+  const [videoHeight, setVideoHeight] = useState(750)
   const [deviceSocket, setDeviceSocket] = useState(null)
 
 
   useEffect(() => {
-    getActiveDevices();
-  }, [])
-
-  const phones = [];
+    const interval = setInterval(() => {
+      getActiveDevices();
+    }, 1000); // 1000 milliseconds = 1 second
+  
+    return () => clearInterval(interval); // This is the cleanup function to clear the interval when the component unmounts
+  }, []);
+  
 
   const getActiveDevices = async () => {
     const response = await fetch('http://localhost:3001/getDevicesStatus')
@@ -27,9 +31,13 @@ function App() {
     
     const availableDevices = data.devices.filter(device => device.state === 'AVAILABLE')
     
+    const newPhones = [];
+
     availableDevices.forEach(phone => {
-      phones.push(phone.descriptor)
+      newPhones.push(phone.descriptor)
     });
+
+    setPhones(newPhones)
   }
 
   const startSession = async (device) => {
@@ -59,11 +67,12 @@ function App() {
     
       // You can now use deviceInfo to set more state or perform other actions
       console.log(deviceInfo);
-
   
       const data = await response.json()
       
       setSessionId(data.deviceSessionId)
+      setActiveTest(true)
+      
       setVideoWidth((deviceInfo.resolutionWidth)*.3)
       setVideoHeight((deviceInfo.resolutionHeight)*.3)
       
@@ -86,6 +95,7 @@ function App() {
 
       const data = await response.text()
       setSessionId('');
+      setActiveTest(false);
       setVideoHeight(0);
       setVideoWidth(0);
 
@@ -101,7 +111,7 @@ function App() {
           <TouchOverlay deviceWidth={videoWidth} deviceHeight={videoHeight} websocketManager={deviceSocket}/>
           <img src={videoSrc} width={videoWidth} height={videoHeight} />
         </div>
-      <ButtonContainer phones={phones} startSession={startSession} endSession={endSession} sessionId={sessionId}/>
+      <ButtonContainer phones={phones} activeTest={activeTest} startSession={startSession} endSession={endSession} sessionId={sessionId}/>
       </div>
     </div>
   );

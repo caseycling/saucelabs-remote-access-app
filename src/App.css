@@ -26,6 +26,10 @@
   gap: 10px;
 }
 
+.btn-spacing {
+  margin-right: 10px;
+}
+
 .video-container {
   position: relative;
   display: inline-block;

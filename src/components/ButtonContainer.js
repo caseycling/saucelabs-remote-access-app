@@ -1,23 +1,21 @@
-import React, {useState} from 'react';
+import React, { useEffect } from 'react';
 
 import EndSessionButton from './EndSessionButton'
 import DeviceSelectorCarousel from './DeviceSelectorCarousel';
 
 
-const ButtonContainer = ({phones, startSession, endSession, sessionId}) => {
+const ButtonContainer = ({phones, activeTest, startSession, endSession, sessionId}) => {
 
-    const [activeTest, setActiveTest] = useState(false)
-
-    const handleStart = () => {
-        setActiveTest(true)
-    }
-
+    useEffect(() => {
+        console.log(activeTest)
+    }, [activeTest])
+    
     return (
         <div className="button-container">
-            {!activeTest ? 
-                <DeviceSelectorCarousel handleStart={handleStart} phones={phones} startSession={startSession} />
-                :
+            {activeTest ? 
                 <EndSessionButton endSession={endSession} sessionId={sessionId}/>
+                :
+                <DeviceSelectorCarousel phones={phones} startSession={startSession} />                
             }
         </div>
     );
