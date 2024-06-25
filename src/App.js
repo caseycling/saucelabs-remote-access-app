@@ -8,6 +8,7 @@ import TouchOverlay from './components/TouchOverlay';
 function App() {
 
   const [activeTest, setActiveTest] = useState(false);
+  const [phones, setPhones] = useState([]);
   const [sessionId, setSessionId] = useState('');
   const [videoSrc, setVideoSrc] = useState(null)
   const [videoWidth, setVideoWidth] = useState(0)
@@ -16,10 +17,13 @@ function App() {
 
 
   useEffect(() => {
-    getActiveDevices();
-  }, [])
-
-  const phones = [];
+    const interval = setInterval(() => {
+      getActiveDevices();
+    }, 1000); // 1000 milliseconds = 1 second
+  
+    return () => clearInterval(interval); // This is the cleanup function to clear the interval when the component unmounts
+  }, []);
+  
 
   const getActiveDevices = async () => {
     const response = await fetch('http://localhost:3001/getDevicesStatus')
@@ -27,9 +31,13 @@ function App() {
     
     const availableDevices = data.devices.filter(device => device.state === 'AVAILABLE')
     
+    const newPhones = [];
+
     availableDevices.forEach(phone => {
-      phones.push(phone.descriptor)
+      newPhones.push(phone.descriptor)
     });
+
+    setPhones(newPhones)
   }
 
   const startSession = async (device) => {
