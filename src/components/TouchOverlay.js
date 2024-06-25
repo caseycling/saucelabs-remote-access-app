@@ -56,6 +56,7 @@ const TouchOverlay = ({deviceWidth, deviceHeight, websocketManager}) => {
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseUp}
         className="video-overlay"
         />
     )
