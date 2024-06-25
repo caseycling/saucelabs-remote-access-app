@@ -11,15 +11,16 @@ function App() {
   const [phones, setPhones] = useState([]);
   const [sessionId, setSessionId] = useState('');
   const [videoSrc, setVideoSrc] = useState(null)
-  const [videoWidth, setVideoWidth] = useState(500)
-  const [videoHeight, setVideoHeight] = useState(750)
+  const [videoWidth, setVideoWidth] = useState(0)
+  const [videoHeight, setVideoHeight] = useState(0)
   const [deviceSocket, setDeviceSocket] = useState(null)
 
 
   useEffect(() => {
+    getActiveDevices();
     const interval = setInterval(() => {
       getActiveDevices();
-    }, 1000); // 1000 milliseconds = 1 second
+    }, 5000);
   
     return () => clearInterval(interval); // This is the cleanup function to clear the interval when the component unmounts
   }, []);
