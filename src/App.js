@@ -42,6 +42,7 @@ function App() {
   }
 
   const startSession = async (device) => {
+    setActiveTest(true)
     try {
       const response = await fetch(`http://localhost:3001/openDevice/${device.target.id}`, {
         method: 'POST',
@@ -72,7 +73,6 @@ function App() {
       const data = await response.json()
       
       setSessionId(data.deviceSessionId)
-      setActiveTest(true)
       
       setVideoWidth((deviceInfo.resolutionWidth)*.3)
       setVideoHeight((deviceInfo.resolutionHeight)*.3)
