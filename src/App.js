@@ -5,9 +5,7 @@ import { getActiveDevices, startSession, endSession } from './services/UseSessio
 import ButtonContainer from './components/ButtonContainer';
 import TouchOverlay from './components/TouchOverlay';
 
-
 function App() {
-
   const [activeTest, setActiveTest] = useState(false);
   const [phones, setPhones] = useState([]);
   const [sessionId, setSessionId] = useState('');
@@ -16,14 +14,13 @@ function App() {
   const [videoHeight, setVideoHeight] = useState(0)
   const [deviceSocket, setDeviceSocket] = useState(null)
 
-
   useEffect(() => {
     getActiveDevices(setPhones);
     const interval = setInterval(() => {
       getActiveDevices(setPhones);
     }, 5000);
   
-    return () => clearInterval(interval); // This is the cleanup function to clear the interval when the component unmounts
+    return () => clearInterval(interval);
   }, []);
 
   return (

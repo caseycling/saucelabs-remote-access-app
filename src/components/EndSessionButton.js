@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const EndSessionButton = ({endSession, sessionId}) => {
     return (
         <button className='btn btn-primary' onClick={() => endSession(sessionId)}>
@@ -8,6 +7,5 @@ const EndSessionButton = ({endSession, sessionId}) => {
         </button>
     );
 }
-
 
 export default EndSessionButton;
