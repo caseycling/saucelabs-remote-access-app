@@ -12,9 +12,6 @@ const TouchOverlay = ({deviceWidth, deviceHeight, websocketManager}) => {
         const mouseX = event.clientX - rect.left
         const mouseY = event.clientY - rect.top
 
-        console.log(`### CLICK DOWN DETECTED ###`)
-        console.log(`Mouse X (canvas): ${mouseX}`)
-        console.log(`Mouse Y (canvas): ${mouseY}`)
         setMouseIsDown(true)
         websocketManager.sendMovement(parseInt(deviceWidth), parseInt(deviceHeight), "d", `${parseInt(mouseX)} ${parseInt(mouseY)}`)
     }
@@ -26,9 +23,6 @@ const TouchOverlay = ({deviceWidth, deviceHeight, websocketManager}) => {
         const mouseX = event.clientX - rect.left
         const mouseY = event.clientY - rect.top
 
-        console.log(`### CLICK UP DETECTED ###`)
-        console.log(`Mouse X (canvas): ${mouseX}`)
-        console.log(`Mouse Y (canvas): ${mouseY}`)
         setMouseIsDown(false)
         websocketManager.sendMovement(parseInt(deviceWidth), parseInt(deviceHeight), "u", `${parseInt(mouseX)} ${parseInt(mouseY)}`)
     }
@@ -40,9 +34,6 @@ const TouchOverlay = ({deviceWidth, deviceHeight, websocketManager}) => {
 
             const mouseX = event.clientX - rect.left
             const mouseY = event.clientY - rect.top
-            console.log(`### MOUSE MOVEMENT DETECTED ###`)
-            console.log(`Mouse X (canvas): ${mouseX}`)
-            console.log(`Mouse Y (canvas): ${mouseY}`)
 
             websocketManager.sendMovement(parseInt(deviceWidth), parseInt(deviceHeight), "m", `${parseInt(mouseX)} ${parseInt(mouseY)}`)
         }
@@ -50,13 +41,13 @@ const TouchOverlay = ({deviceWidth, deviceHeight, websocketManager}) => {
 
     return (
         <canvas
-        ref={overlayRef}
-        width={deviceWidth}
-        height={deviceHeight}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}
-        className="video-overlay"
+            ref={overlayRef}
+            width={deviceWidth}
+            height={deviceHeight}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            className="video-overlay"
         />
     )
 }

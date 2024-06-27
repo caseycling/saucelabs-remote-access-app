@@ -38,8 +38,7 @@ app.post("/sessions/:deviceSessionId/close", async (req, res) => {
 
     if (response != 500) {
         res.send("OK")
-    }
-    else {
+    } else {
         res.status(500).send("Internal Server Error")
     }
 })

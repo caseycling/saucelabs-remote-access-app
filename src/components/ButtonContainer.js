@@ -1,15 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import EndSessionButton from './EndSessionButton'
 import DeviceSelectorCarousel from './DeviceSelectorCarousel';
 
-
 const ButtonContainer = ({phones, activeTest, startSession, endSession, sessionId}) => {
-
-    useEffect(() => {
-        console.log(activeTest)
-    }, [activeTest])
-    
     return (
         <div className="button-container">
             {activeTest ? 
