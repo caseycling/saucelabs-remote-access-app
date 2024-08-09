@@ -3,8 +3,8 @@
 Custom implementation of Sauce Labs Live Testing device launch logic
 
 ## Getting Started
-1. Clone the repository `git clone https://github.com/caseycling/optum-app.git`
-2. Go to the repository `cd optum-app`
+1. Clone the repository `git clone https://github.com/caseycling/saucelabs-remote-access-app.git`
+2. Go to the repository `cd saucelabs-remote-access-app`
 3. Install dependencies `npm i`
 4. Create your .env file in the root of the project directory, which contains your `process.env.REACT_APP_SAUCE_USERNAME` and `process.env.REACT_APP_SAUCE_ACCESS_KEY`
 
