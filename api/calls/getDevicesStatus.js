@@ -2,10 +2,13 @@
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const config = require("../config.js")
 
-//https://docs.saucelabs.com/dev/api/rdc/#get-devices-status
+// Endpoint used to determine status of devices
+// https://api.us-west-1.saucelabs.com/v1/rdc/devices/status
+
 let getDevicesStatus = async _ => {
     const response = await fetch(`${config.apiEndpoint}/v1/rdc/devices/status`)
     return (await response.json())
+    
 }
 
 module.exports = getDevicesStatus;

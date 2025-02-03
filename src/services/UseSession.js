@@ -1,5 +1,6 @@
 import WebsocketManager from "./WebsocketManager";
 
+// Gets devices with state of 'AVAILABLE'
 export const getActiveDevices = async (setPhones) => {
   const response = await fetch('http://localhost:3001/getDevicesStatus')
   const data = await response.json()
@@ -10,6 +11,7 @@ export const getActiveDevices = async (setPhones) => {
   setPhones(newPhones)
 }
 
+// Starts manual testing session
 export const startSession = async (device, setActiveTest, setSessionId, setVideoWidth, setVideoHeight, setDeviceSocket, setVideoSrc) => {
   setActiveTest(true)
   try {
@@ -28,7 +30,8 @@ export const startSession = async (device, setActiveTest, setSessionId, setVideo
     }
 
     const deviceInfoResponse = await fetch(`http://localhost:3001/validateDescriptor/${device.target.id}`);
-  
+    console.log(deviceInfoResponse)
+
     if (!deviceInfoResponse.ok) {
       throw new Error(`HTTP error! status: ${deviceInfoResponse.status}`);
     }
@@ -49,6 +52,7 @@ export const startSession = async (device, setActiveTest, setSessionId, setVideo
   }
 }
 
+// End testing session 
 export const endSession = async (sessionId, setSessionId, setActiveTest, setVideoHeight, setVideoWidth) => {
 
   try {

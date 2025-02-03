@@ -11,14 +11,16 @@ const PORT = 3001
 
 app.use(express.json())
 
-//Blanket-enable cors for every route, i.e. Enable ALL CORS requests
+// Blanket-enable cors for every route, i.e. Enable ALL CORS requests
 app.use(cors())
 
+// Gets status of devices
 app.get("/getDevicesStatus", async (_, res) => {
     const data = await getDevicesStatus()
     res.send(data)
 })
 
+// Validates descriptor and gets more info about device
 app.get("/validateDescriptor/:descriptor", async (req, res) => {
     const data = await validateDescriptor(req.params.descriptor)
     if (typeof data == "object") {
@@ -28,11 +30,13 @@ app.get("/validateDescriptor/:descriptor", async (req, res) => {
     }
 })
 
+// Creates a manual testing session using the validated descriptor 
 app.post("/openDevice/:descriptor", async (req, res) => {
     const data = await openDevice(req.params.descriptor, req.body)
     res.send(data) 
 })
 
+// Closes a manual testing session
 app.post("/sessions/:deviceSessionId/close", async (req, res) => {
     const response = await closeDevice(req.params.deviceSessionId)
 
