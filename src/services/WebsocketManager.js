@@ -27,7 +27,10 @@ class WebsocketManager {
         this.alternativeIoSocket = new WebSocket(`wss://${process.env.REACT_APP_SAUCE_USERNAME}:${process.env.REACT_APP_SAUCE_ACCESS_KEY}@api.us-west-1.saucelabs.com/v1/rdc/socket/alternativeIo/${this.deviceSessionId}`)
         this.alternativeIoSocket.binaryType = "blob"
         this.alternativeIoSocket.onerror = error => console.log(error)
-        this.alternativeIoSocket.onopen = _ => console.log("alternativeio websocket opened")
+        this.alternativeIoSocket.onopen = _ => {
+            console.log("alternativeio websocket opened")
+            this.startKeyboardListener()
+        }
         this.alternativeIoSocket.onmessage = event => {
             if (event.data instanceof Blob) {
                 // The client should send `n/` to acknowledge receipt of a message
@@ -53,6 +56,40 @@ class WebsocketManager {
             this.alternativeIoSocket.send(movementData)
         }
     }
+
+
+    // Keyboard events can be sent as text messages. 
+    // The structure is `tt/{key}`.
+    
+    sendKeyboardEvent(key) {
+        const message = `tt/${key}`
+        console.log(`Sending key: ${message}`)
+        if (this.alternativeIoSocket && this.alternativeIoSocket.readyState === WebSocket.OPEN) {
+            this.alternativeIoSocket.send(message)
+        }
+    }
+
+    startKeyboardListener() {
+        this._keyboardHandler = (event) => {
+            this.sendKeyboardEvent(event.key)
+        }
+        window.addEventListener("keydown", this._keyboardHandler)
+    }
+
+    stopKeyboardListener() {
+        if (this._keyboardHandler) {
+            window.removeEventListener("keydown", this._keyboardHandler)
+            this._keyboardHandler = null
+        }
+    }
+
+    closeSockets() {
+        if (this.companionSocket) this.companionSocket.close()
+        if (this.alternativeIoSocket) this.alternativeIoSocket.close()
+        this.stopKeyboardListener()
+    }
+
+
 }
 
 export default WebsocketManager
